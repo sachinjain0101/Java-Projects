@@ -3,10 +3,6 @@ public class Test {
 
 	private Integer i;
 	
-	private Test(){
-		
-	}
-	
 	public Test(Integer i){
 		this.setI(i);
 	}

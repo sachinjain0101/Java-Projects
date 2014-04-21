@@ -16,12 +16,15 @@
 package com.sacsoft.test_app;
 
 import com.vaadin.Application;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -44,17 +47,31 @@ public class TestApp extends Application {
 
 	@Override
 	public void init() {
+		setTheme("runo");
 		window = new Window("TestApp - SaCsOfT");
 		setMainWindow(window);
+		
+		
 
 		window.setTheme(getTheme());
 
 		vLayout = new VerticalLayout();
-		window.setContent(vLayout);
-		window.getContent().setSizeFull();
-
-		vLayout.addComponent(new Label("TestApp - SaCsOfT"));
-
+		vLayout.setSizeFull();
+		Label label = new Label("TestApp - SaCsOfT");
+		label.setHeight(10,Sizeable.UNITS_PIXELS);
+		label.setWidth(null);
+		//vLayout.addComponent(label);
+		
+		GridLayout grid = new GridLayout(4, 4);
+		
+		for(int i=0;i<grid.getRows();i++){
+			for(int j=0;j<grid.getColumns();j++){
+				grid.addComponent(new TextField(i+","+j), i, j);
+			}	
+		}
+		
+		vLayout.addComponent(grid);
+		
 		tabSheet = new TabSheet();
 		vLayout.addComponent(tabSheet);
 
@@ -91,6 +108,9 @@ public class TestApp extends Application {
 				panel2.addComponent(new Label("Thank you for clicking"));
 			}
 		});
+
+		window.setContent(vLayout);
+		//window.getContent().setSizeFull();
 
 		clearMe.addListener(new Button.ClickListener() {
 

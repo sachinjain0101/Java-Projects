@@ -1,18 +1,3 @@
-/*
- * Copyright 2009 IT Mill Ltd.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.sacsoft.test_app;
 
 import com.vaadin.Application;
@@ -27,6 +12,7 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
 
 /**
@@ -40,8 +26,8 @@ public class TestApp extends Application {
 
 	private TabSheet tabSheet;
 
-	private Panel panel1;
-	private Panel panel2;
+	private Panel buttonPanel;
+	private Panel messagePanel;
 
 	private Button clearMe;
 
@@ -76,38 +62,52 @@ public class TestApp extends Application {
 		vLayout.addComponent(tabSheet);
 
 		hLayout = new HorizontalLayout();
-		hLayout.setSizeFull();
+		hLayout.setSizeUndefined();
 		HorizontalLayout dummy = new HorizontalLayout();
+		
 		tabSheet.addTab(hLayout, "HL1");
 		tabSheet.addTab(dummy, "HL2");
 		// vLayout.addComponent(hLayout);
 		// hLayout.setMargin(true);
 
-		panel1 = new Panel("Button Panel");
-		panel1.setSizeFull();
-		panel2 = new Panel("Message Panel");
-		panel2.setSizeFull();
-
-		Button button = new Button("Click Me");
-		panel1.addComponent(button);
-		hLayout.addComponent(panel1);
-
-		clearMe = new Button("Clear Me");
-		panel2.addComponent(clearMe);
-
-		hLayout.addComponent(panel2);
+		VerticalSplitPanel vSplitPanel  = new VerticalSplitPanel();
+		
+		Panel mainPanel = new Panel("Main Panel");
+		mainPanel.setContent(vSplitPanel);
 
 		Tree tree = new Tree("Test Tree");
 		tree.setSizeFull();
 		String name = "Sachin Jain";
 		tree.addItem(name);
-		hLayout.addComponent(tree);
+		vSplitPanel.setFirstComponent(tree);
+		
+		buttonPanel = new Panel("Button Panel");
+		buttonPanel.setSizeFull();
+		Button button = new Button("Click Me");
+		buttonPanel.addComponent(button);
 
+		vSplitPanel.setSecondComponent(buttonPanel);
+		
 		button.addListener(new Button.ClickListener() {
+			int counter = 0;
 			public void buttonClick(ClickEvent event) {
-				panel2.addComponent(new Label("Thank you for clicking"));
+				counter++;
+				messagePanel.addComponent(new Label("Thank you for clicking : "+counter));
 			}
 		});
+		
+		
+		
+		messagePanel = new Panel("Message Panel");
+		//panel2.setSizeFull();
+		clearMe = new Button("Clear Me");
+		messagePanel.addComponent(clearMe);
+		messagePanel.setScrollable(true);
+		messagePanel.setScrollTop(200);
+		messagePanel.setSizeUndefined();
+		//panel2.getContent().setHeight(200, Sizeable.UNITS_PIXELS);
+		vLayout.addComponent(messagePanel);
+
 
 		window.setContent(vLayout);
 		//window.getContent().setSizeFull();
@@ -115,8 +115,8 @@ public class TestApp extends Application {
 		clearMe.addListener(new Button.ClickListener() {
 
 			public void buttonClick(ClickEvent event) {
-				panel2.removeAllComponents();
-				panel2.addComponent(clearMe);
+				messagePanel.removeAllComponents();
+				messagePanel.addComponent(clearMe);
 			}
 		});
 

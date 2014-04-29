@@ -1,6 +1,10 @@
 package com.sacsoft.test_app;
 
+import org.hibernate.Session;
+
 import com.vaadin.Application;
+import com.vaadin.data.hbnutil.HbnContainer.SessionManager;
+import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -19,7 +23,7 @@ import com.vaadin.ui.Window;
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
-public class TestApp extends Application {
+public class TestApp extends Application implements SessionManager{
 	private Window window;
 	private VerticalLayout vLayout;
 	private HorizontalLayout hLayout;
@@ -34,6 +38,20 @@ public class TestApp extends Application {
 	@Override
 	public void init() {
 		setTheme("runo");
+		getContext().addTransactionListener(new TransactionListener() {
+			
+			public void transactionStart(Application application, Object transactionData) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void transactionEnd(Application application, Object transactionData) {
+				if(application == TestApp.this){
+					//closeSession();
+				}
+				
+			}
+		});
 		window = new Window("TestApp - SaCsOfT");
 		setMainWindow(window);
 		
@@ -120,6 +138,10 @@ public class TestApp extends Application {
 			}
 		});
 
+	}
+
+	public Session getSession() {
+		Session currentSession =
 	}
 
 }

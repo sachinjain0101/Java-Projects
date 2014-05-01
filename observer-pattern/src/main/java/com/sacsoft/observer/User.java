@@ -1,6 +1,6 @@
 package com.sacsoft.observer;
  
-public class User implements Observer {
+public class User implements Listener {
  
   private String article;
   private Subject blog;

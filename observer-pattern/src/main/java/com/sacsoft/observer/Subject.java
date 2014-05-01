@@ -2,11 +2,11 @@ package com.sacsoft.observer;
  
 public interface Subject {
  
-  public void registerObserver(Observer observer);
+  public void registerListener(Listener listener);
  
-  public void notifyObserver();
+  public void notifyListener();
  
-  public void unRegisterObserver(Observer observer);
+  public void unRegisterListener(Listener listener);
  
   public Object getUpdate();
  

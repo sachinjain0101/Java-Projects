@@ -5,27 +5,27 @@ import java.util.List;
  
 public class Blog implements Subject {
  
-  List<Observer> observersList;
+  List<Listener> listenersList;
   private boolean stateChange;
  
   public Blog() {
-    this.observersList = new ArrayList<Observer>();
+    this.listenersList = new ArrayList<Listener>();
     stateChange = false;
   }
  
-  public void registerObserver(Observer observer) {
-    observersList.add(observer);
+  public void registerListener(Listener listener) {
+    listenersList.add(listener);
   }
  
-  public void unRegisterObserver(Observer observer) {
-    observersList.remove(observer);
+  public void unRegisterListener(Listener listener) {
+    listenersList.remove(listener);
   }
  
-  public void notifyObserver() {
+  public void notifyListener() {
  
     if (stateChange) {
-      for (Observer observer : observersList) {
-        observer.update();
+      for (Listener listener : listenersList) {
+        listener.update();
       }
     }
   }
@@ -33,16 +33,16 @@ public class Blog implements Subject {
   public Object getUpdate() {
     Object changedState = null;
     // should have logic to send the
-    // state change to querying observer
+    // state change to querying listener
     if (stateChange) {
-      changedState = "Observer Design Pattern";
+      changedState = "Listener Design Pattern";
     }
     return changedState;
   }
  
   public void postNewArticle() {
     stateChange = true;
-    notifyObserver();
+    notifyListener();
   }
- 
+
 }

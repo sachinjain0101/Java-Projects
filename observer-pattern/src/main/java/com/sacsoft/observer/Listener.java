@@ -1,6 +1,6 @@
 package com.sacsoft.observer;
  
-public interface Observer {
+public interface Listener {
  
   public void update();
  
